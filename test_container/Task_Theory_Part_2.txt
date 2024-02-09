@@ -1,0 +1,629 @@
+# Mathematical Modeling of a system
+
+
+
+In the previous Task, we had discussed about the various steps involved in testing the stability of a system. In this document, we will be discussing the **Euler-Lagrange method** to derive the equations of motion of a given system.
+
+ 
+
+Before you start, you might need to recapitulate a few topics if you want to fully understand what we are going to explain here.
+
+You will need a good understanding of classical mechanics. *“Concepts of Physics by* *Prof.* H.C. *Verma”* is a great place to brush up on those concepts. 
+
+You will also need to understand mathematical concepts like partial differentiation, jacobians, solving equations with two or more variables etc.
+
+ 
+
+## Euler-Lagrange Method
+
+The Euler-Lagrange method states that the equations of motion of a system can be obtained by solving the following equation:
+$$
+\frac{d}{d t} \left(  \frac{\partial L}{\partial \dot x} \right) - \frac{\partial L}{\partial x} = 0
+$$
+
+(Assuming that there are no non-conservative forces acting on the system)
+
+Here,
+
+L is the Lagrangian which is the difference between the Kinetic energy and Potential energy of the system.
+
+Hence						   
+
+$$
+L = K.E - P.E
+$$
+$x$ and $\dot x$ are the state variables (In our case here, position and velocity respectively) in generalized coordinate system. 
+
+We will try to understand this using an example.
+
+Consider the following system:
+
+ <div align="center" class="main"><img src="https://raw.githubusercontent.com/saurabhcosmos/milkyway/main/images/task1/t1_2.png" width="300" height="190" alt="img"/></div>
+
+A point mass $m$ is raised to height $y$. We need to calculate the equations of motion using the Euler-Lagrange method.
+
+Firstly we calculate the KE and PE. Then use those values to calculate the Lagrangian $L$.
+
+$$
+PE =mgy \qquad\qquad(1) \\
+KE = \frac{1}{2} mv^2 = \frac{1}{2} m\dot y^2 \qquad\qquad(2) \\
+L=KE - PE = \frac{1}{2} m\dot y^2  - mgy \qquad\qquad(3) \\
+$$
+
+
+Equation (1) is self explanatory. The mass is raised to height $y$. So the potential energy stored in mass will be $mgy$.
+
+Equation (2) is slightly tricky to understand. We know that kinetic energy of a point mass is $ (\frac{1}{2}) * (mass) * (velocity)^2$. Now velocity v is nothing but rate of change of $y$ with respect to $t$. Hence v can be written as $\frac{dy}{dt}$ or $\dot y$.
+
+Equation (3) represents the Lagrangian (L) which is the difference between the KE and PE of the system.
+
+Now we calculate the Euler Lagrange equations of motion.
+
+$$
+\frac{\partial L}{\partial y} = \frac{\partial}{\partial y} (\frac{1}{2} m\dot y^2 - mgy) = -mg 
+ \qquad\qquad(4)\\
+\frac{d}{dt} \left( \frac{\partial L}{\partial \dot y}\right) = \frac{d}{dt} \left( \frac{\partial }{\partial \dot y} (\frac{1}{2} m\dot y^2 - mgy)\right) = m \ddot y \qquad\qquad(5)\\
+Hence, 
+\frac{d}{dt} \left( \frac{\partial L}{\partial \dot y}\right)  -  \frac{\partial L}{\partial y} = 0 \\
+=>m \ddot y - (-mg) = 0 \\
+=> \ddot y = -g \qquad\qquad(6)
+$$
+
+
+Equation (6) gives the final answer. Here $\ddot y$ represents the acceleration.
+
+Equation (6) makes sense as only gravitational force is acting on the system. Hence the acceleration of the system is the acceleration due to gravity.
+
+If we had used the Newton’s laws of motion, we would have arrived at the same result, albeit in a different way.
+
+Let us now consider a somewhat more complex example.
+
+<div align="center" class="main"><img src="https://raw.githubusercontent.com/saurabhcosmos/milkyway/main/images/task1/t1_5.png" width="450" height="300" alt="img"/></div>
+
+
+
+
+
+We have our pendulum equation whose equations of motion we demonstrated in previous Task using Newtons Laws of motions. Now we will demonstrate the same using Euler-Lagrangian method.
+
+In this system, we have a pendulum. The mass of the bob is given as m. The length of rod to which the bob is attached to is l. We have assumed the rod to be rigid and have no mass. So all the mass is concentrated to the bob.                  
+
+While swinging, at any arbitrary point in the pendulum’s trajectory, the pendulum can assumed to be at a height h from the bottom. h can be written as a function of $θ$ where $θ$ is the angle the pendulum bob makes with the vertical.
+
+$$
+h = l - l\hspace{1mm}cosθ
+$$
+
+First, we need to calculate the Lagrangian $L$ for this system. For that we need to compute the kinetic energy and potential energy of this system.
+
+Calculating the potential energy is pretty straightforward.
+
+$$
+PE = mgh = mg(l - l\hspace{1mm}cosθ) = mgl(1 - cosθ) \qquad\qquad(7)
+$$
+
+
+The kinetic energy will be defined by $ (\frac{1}{2}) * (mass) * (velocity)^2$ Here the velocity is the tangential velocity of the bob. We can take $x$ and $y$ components of velocity $v$ and solve for kinetic energy using those equations. 
+
+However, we can use rotational mechanics to make our calculations simpler. Since the pendulum bob is oscillating in a circular trajectory, the kinetic energy can be given by:
+$$
+KE = \frac{1}{2} Iω^2
+$$
+
+Where $I$ is the moment of inertia and $ω$ is the angular velocity.
+
+But we know:
+
+$$
+I = ml^2 \qquad and \qquad ω=\dot θ
+$$
+
+
+Angular velocity $ω$ can be written as rate of change of $θ$ with respect to time. Hence we can write $ω= (dθ/dt)$.
+
+
+Therefore we have the expression for kinetic energy:
+
+$$
+KE = \frac{1}{2} Iω^2 = \frac{1}{2} ml^2 \dot θ^2 \qquad\qquad(8)
+$$
+
+
+Now we have the expressions for PE and KE we will calculate the Lagrangian L and use it to calculate the equations of motion for this system.
+
+$$
+L = KE - PE = \frac{1}{2} ml^2 \dot θ^2 - mgl(1 - cosθ)\qquad\qquad(9)
+$$
+
+
+Since $L$ is a function of $θ$, we need to select *θ* and  θ as state variables of the system. Hence the equations of motion can be calculated as:
+
+$$
+\frac{d}{d t} \left(  \frac{\partial L}{\partial \dot θ} \right) - \frac{\partial L}{\partial θ} = 0 \\
+\frac{d}{d t} \left(  \frac{\partial }{\partial \dot θ}\left(  \frac{1}{2} ml^2 \dot θ^2 - mgl(1 - cosθ) \right) \right) - \frac{\partial }{\partial θ} \left(  \frac{1}{2} ml^2 \dot θ^2 - mgl(1 - cosθ) \right) = 0 \\
+=> ml^2 \ddot θ +mgl\hspace{1mm}sinθ = 0 \\
+\ddot θ =\frac{-g}{l} sinθ \qquad\qquad (10)
+$$
+
+
+ In previous Task, we had used the same pendulum example and calculated the equations of motion for pendulum using Newton’s laws. We can confirm that the same equations have been derived using the Euler-Lagrange method.
+
+ 
+
+Suppose we take
+$$
+x_1 = θ
+$$
+and,
+$$
+x_2= \dot θ 
+$$
+We can express the equations we formed in the following way
+
+$$
+\dot x_1 =x_2 \\
+\dot x_2 = \frac{-g}{l} sin x_1
+$$
+
+
+
+In this way we have a two equations that govern our system.  
+
+What happens if there is any external force acting on the system? 
+
+Consider the following system as given in Fig 3.
+
+ <div align="center" class="main"><img src="https://raw.githubusercontent.com/saurabhcosmos/milkyway/main/images/task1/t1_14.png" alt="img" style="zoom:90%;" /></div>
+
+
+
+<div align="center" class="main">Figure 3: Pendulum with external torque</div>
+
+
+In the given simple pendulum system, we have applied an external torque to the system.
+
+ 
+
+In this case, the Euler-Lagrange equation formed will be slightly different.
+$$
+\frac{d}{dt} \left( \frac {\partial L}{\partial \dot θ} \right) - \frac {\partial L}{\partial θ} = T
+$$
+
+Any non-conservative force acting on the system (Since states chosen are angular position and velocity that's why force should also be taken as angular force i.e. Torque. In case we use linear motions as in the first example then we'll use external linear force on the right hand side.) appears on the right side of the Euler-Lagrange equation. Consequently the equations of motion derived for this pendulum system will be as follows:
+
+$$
+\dot x_1 = x_2 \\
+\dot x_2 = \frac{-g}{l} sin\hspace{1mm}x_1 + \frac{1}{ml^2} T
+$$
+
+You can see that there is an additional term in the second equation. We can check if this term is dimensionally correct.
+
+We know $x_1$ is the angular position $θ$ of the pendulum bob (with respect to vertical) and $x_2$ is the angular velocity *theta dot* of the bob. Hence $\dot x_1 = x_2$  will correspond to the angular velocity *theta dot* and $\dot x_2$ will be the angular acceleration *theta double dot*. Let the angular acceleration be denoted by $α$.
+
+The units and dimensions of α are $rad/s^2$ and $T^{-2}$ respectively.
+
+We know $T=Iα$ (where $T= torque, I = moment of inertia, α=angular acceleration$) and $I = mL^2$.
+
+
+
+
+($T/mL^2$) equals angular acceleration $α$. Hence the last term is an angular acceleration term which is consistent with the equation. We can also calculate the dimensions of this term to verify. It will always come as $T^{-2}$. This method is helpful to verify if or equations are valid.
+
+
+------
+# Quiz
+Consider the following Lagrangian L and use it to calculate the equations of motion for the system:
+$$
+L = a \dot x^2 + 3bx^3 
+$$
+**Hint:** Use $ \frac{d}{dt} (\frac {\partial L}{\partial \dot x})- \frac {\partial L}{\partial x}=0$
+
+Select the correct option from below:
+[poll type=regular results=staff_only public=true chartType=bar]
+* $ \ddot x  = \frac{3bx}{2a} $ 
+* $ \ddot x  = \frac{bx^2}{a} $ 
+* $ \ddot x  = \frac{9bx^2}{2a} $   [Correct]
+*  $ \ddot x  = \frac{2ax^2}{9b} $ 
+[/poll]
+
+------
+# Mathematical Modeling of a system
+
+# Introduction to State Space Analysis
+
+
+
+We had briefly covered State Variables and State Equations in previous Task. In this section we will further elaborate on that topic and discuss the various control techniques that are associated with that.
+
+In control engineering, a **state-space representation** is a mathematical model of a physical system as a set of input, output and state variables related by first-order differential equations or difference equations. **State variables** are variables whose values evolve through time in a way that depends on the values they have at any given time and also depends on the externally imposed values of input variables. Output variables’ values depend on the values of the state variables.
+
+ 
+
+The state space equations for a linear time invariant system (LTI) system can be given as follows: 
+
+$$
+State Equation =>\dot x(t) = Ax(t) + Bu(t) \\ 
+Output Equation => y(t) = Cx(t) + Du(t)
+$$
+Here
+
+$x(t)$- State Vector (n x 1 matrix)
+
+$y(t)$- Output Vector (p x 1 matrix)
+
+$u(t)$- Input Vector (m x 1 matrix)
+
+A - State (or system) matrix (n x n matrix)
+
+B  - Input matrix (n x m matrix)
+
+C - Output Matrix (p x n matrix)
+
+D - Feed-forward matrix (p x m matrix)
+
+where p, m, n are:
+
+We won’t go into the theory of how these equations came into being. That’s a lot of complicated math that cannot be covered here. You can refer to good Control Systems books.
+
+Consider a set of equations:
+$$
+\dot x_1 = x_1x_2 -x_2 \quad \quad (1a) \\ 
+\dot x_2 = 2x_1 - x_2^2 \quad \quad (1b)
+$$
+
+We want to express this set of equations into the form
+$$
+\dot x = Ax \quad \quad (2)
+$$
+
+
+Notice, we have neglected the $Bu$ term in this equation. That’s because our system doesn’t have any input. It only has state variables $x_1$ and $x_2$. 
+
+Can we express the set of equations (1a & 1b) in terms of (2)??
+
+The answer is no, we cannot. (1a & 1b) is a set of non linear equations while (2) is a set of linear equations. However, if we linearize (1a & 1b), it might be possible to express (1a & 1b) in terms of (2). 
+
+How do we linearize (1a & 1b)? That was basically the whole point of previous Task.
+
+
+
+**1.**    **Find the equilibrium points** 
+
+We want to find the point around which the system is stable. To find the     equilibrium points we need to set $\dot x_1 = 0$ and $\dot x_2=0$. Then solve the equations for $x_1$ and $x_2$.
+
+$$
+0=x_1x_2-x_2 \quad \quad (3a) \\ 
+0= 2x_1-x_2^2   \quad \quad (3b) 
+$$
+
+If we solve (3a & 3b) for $x_1$ and $x_2$ we will get the equilibrium points as $ (0,0), (1,\sqrt{2}) and (1,-\sqrt{2}) $.
+
+
+**2.**    **Calculate the jacobian of the system of equations**
+
+The jacobian J for the system of equations (3a & 3b) will be:
+$$
+J = \begin{bmatrix} \frac{\partial (x_1x_2 -x_2)}{\partial x_1} & \frac{\partial (x_1x_2 -x_2)}{\partial x_2}\\ \frac{\partial (2x_1 -x_2^2)}{\partial x_1} & \frac{\partial (2x_1 -x_2^2)}{\partial x_2}\end{bmatrix} \\
+J = \begin{bmatrix} x_2 & x_1-1 \\ 2 &-2x_2 \end{bmatrix} 
+$$
+
+
+**3.**    **For each equilibrium point, calculate the value of the jacobian.**
+
+The values of jacobian for each equilibrium point will be given as:
+$$
+J_{(0,0)} = \begin{bmatrix} 0 & 0-1 \\ 2 & -2(0) \end{bmatrix} = \begin{bmatrix} 0 & -1 \\ 2 & 0\end{bmatrix} \\
+J_{(1,\sqrt{2})} = \begin{bmatrix} \sqrt{2} & 1-1 \\ 2 & -2(\sqrt{2}) \end{bmatrix} = \begin{bmatrix} \sqrt{2} & 0 \\ 2 & -2\sqrt{2} \end{bmatrix} \\
+J_{(1,-\sqrt{2})} = \begin{bmatrix} -\sqrt{2} & 1-1 \\ 2 & -2(-\sqrt{2}) \end{bmatrix} = \begin{bmatrix} -\sqrt{2} & 0 \\ 2 & 2\sqrt{2} \end{bmatrix} \\
+$$
+
+
+**4.**    **Construct the state equation for each equilibrium point.**
+
+The state equation for equilibrium point (0,0) will be:
+$$
+\begin{bmatrix}\dot x_1 \\\dot x_2 \end{bmatrix} = \begin{bmatrix} 0 & -1 \\  2 & 0  \end{bmatrix} \begin{bmatrix}x_1 \\ x_2 \end{bmatrix}
+$$
+Here, 
+$$
+\dot x = \begin{bmatrix}\dot x_1 \\\dot x_2 \end{bmatrix}, x = \begin{bmatrix} x_1 \\ x_2 \end{bmatrix} \\
+A = \begin{bmatrix} 0 & -1 \\  2 & 0  \end{bmatrix}
+$$
+
+Therefore the set of equations has been expressed in the form:
+$$
+\dot x = Ax
+$$
+It is very important to note that this approximation of the set of non-linear equations given in (3) will only hold true for point close to the equilibrium point (0,0). 
+
+This means that around the vicinity of the equilibrium point (0,0), the non-linear system will behave like a linear system and the state equation given above will  hold true around the vicinity of that point.
+
+ 
+
+Likewise, the state equations for equilibrium points (1,√2) and (1,-√2) are: 
+
+$$
+\begin{bmatrix}\dot x_1 \\\dot x_2 \end{bmatrix} = \begin{bmatrix} \sqrt{2} & 0 \\  2 & -2\sqrt{2}  \end{bmatrix} \begin{bmatrix}x_1 \\ x_2 \end{bmatrix} \\
+and \\
+\begin{bmatrix}\dot x_1 \\\dot x_2 \end{bmatrix} = \begin{bmatrix} -\sqrt{2} & 0 \\  2 & 2\sqrt{2}  \end{bmatrix} \begin{bmatrix}x_1 \\ x_2 \end{bmatrix} \\
+$$
+
+### **Stability**
+
+------
+
+We can find out whether the system is stable or unstable at each of the equilibrium points by finding out the eigenvalues of the A matrix. If any of the eigenvalues have a positive real part, the system will be unstable.
+
+
+So, for equilibrium point (1, √2) of the system, the eigenvalues will be -2.824 and 1.414. Hence system will be unstable.
+
+ 
+
+**Introducing Control Input**
+
+ 
+
+Let us consider the Pendulum with external applied torque system.
+
+ 
+
+We derived the equations for this system as:
+
+$$
+\dot x_1 = x_2 \\
+\dot x_2 = \frac{-g}{l}sin \hspace{1mm}x_1 + \frac{1}{ml^2}T
+$$
+
+We can apply the same linearization technique explained above.
+
+**1.**    **Find the equilibrium points.**
+
+If we set $\dot x_1 = 0$ and $\dot x_2 = 0$, we will find the equilibrium points of this system as $(nπ,0)$ where $n=0,±1,±2,..$.From the physical descriptions of the pendulum, it is  clear that there are only two equilibrium positions $(0,0)$ and $(π,0)$. The rest of  equilibrium points are just repetitions based on number of full swings of the    pendulum.
+
+The equilibrium point $(0,0)$ will be when the pendulum bob is vertically downwards.
+
+The equilibrium point $(π,0)$ will be when the pendulum bob is vertically upwards.
+
+ 
+
+Intuitively, we can guess that the system will be stable at equilibrium point $(0,0)$ and unstable at equilibrium point $(π,0)$. Let us see if our intuition is correct.
+
+**2.**    **Calculate the jacobian of the system of equations.**
+
+The jacobian $J_1$ for the A matrix of the state equation will be:
+
+$$
+J_1 = \begin{bmatrix} \frac{\partial (x_2)}{\partial x_1} & \frac{\partial (x_2)}{\partial x_2}\\ \frac{\partial (\frac{-g}{l}sin \hspace{1mm}x_1 + \frac{1}{ml^2}T)}{\partial x_1} & \frac{\partial (\frac{-g}{l}sin \hspace{1mm}x_1 + \frac{1}{ml^2}T)}{\partial x_2}\end{bmatrix} \\
+J_1 = \begin{bmatrix} 0 & 1 \\ \frac{-g}{l}cos \hspace{1mm}x_1 & 0 \end{bmatrix} 
+$$
+
+
+Since our system has input, we also need to calculate jacobian $J_2$ for the B matrix.
+
+$J_2$ will be:
+$$
+J_1 = \begin{bmatrix} \frac{\partial f_1}{\partial u} \\ \frac{\partial f_2}{\partial u} \end{bmatrix}, f_1 = \dot x_1, f_2 = \dot x_2 
+$$
+Since T is input, we replace T with u
+
+$$
+J_2 = \begin{bmatrix} \frac{\partial (x_2)}{\partial u} \\ \frac{\partial (\frac{-g}{l}sin \hspace{1mm}x_1 + \frac{1}{ml^2}u)}{\partial u} \end{bmatrix} \\
+J_2 = \begin{bmatrix} 0 \\ \frac{1}{ml^2}\end{bmatrix} 
+$$
+
+
+
+**3.**    **For each equilibrium point, substitute value of $(x_1,x_2)$ in the jacobian and calculate the A and B matrix.**
+
+The values of A matrix for each equilibrium point will be given as:
+$$
+A_{(0,0)} = \begin{bmatrix} 0 & 1 \\ -\frac{g}{l} & 0 \end{bmatrix}, A_{(π,0)} = \begin{bmatrix} 0 & 1 \\ \frac{g}{l} & 0\end{bmatrix} \\
+$$
+
+
+The values of B matrix for all equilibrium points will be: 
+$$
+B= \begin{bmatrix} 0 \\ \frac{1}{ml^2} \end{bmatrix}
+$$
+
+**4.**    **Construct the state equation for each equilibrium point.**
+
+The state equation for equilibrium point (0,0) will be:
+$$
+\begin{bmatrix} \dot x_1 \\ \dot x_2 \end{bmatrix} = \begin{bmatrix} 0 & 1 \\ -\frac{g}{l} & 0 \end{bmatrix} \begin{bmatrix} x_1 \\ x_2 \end{bmatrix} + \begin{bmatrix} 0 \\ \frac{1}{ml^2} \end{bmatrix}u
+$$
+
+
+The state equation for equilibrium point $(π,0)$ will be:
+$$
+\begin{bmatrix} \dot x_1 \\ \dot x_2 \end{bmatrix} = \begin{bmatrix} 0 & 1 \\ \frac{g}{l} & 0 \end{bmatrix} \begin{bmatrix} x_1 \\ x_2 \end{bmatrix} + \begin{bmatrix} 0 \\ \frac{1}{ml^2} \end{bmatrix}u
+$$
+
+**5.**    **Check the stability of the system at each equilibrium point.**
+
+At equilibrium point (0,0) the eigenvalues will be:
+
+$$
+λ = ± \sqrt{\frac{g}{l}}i
+$$
+
+At equilibrium point $(π,0)$ the eigenvalues will be:
+
+$$
+λ = ± \sqrt{\frac{g}{l}}
+$$
+
+The eigenvalues for (0,0) will be purely imaginary. Hence the system will be   marginally stable. Marginally stable means that system will be continue to     oscillate about the equilibrium point indefinitely.
+
+The eigenvalues for $(π,0)$ will be purely real. One of the eigenvalues will have  positive real part. Hence the system will be unstable.
+
+Hence we proved that our earlier intuitions about the stability of the system   are correct. The system will be stable for (0,0) and unstable for $(π,0)$.
+
+ 
+
+### **Controllability and Observability**
+
+------
+
+In control theory, controllability and observability are two very important properties of the system.
+
+**Controllability** is the ability to drive a state from any initial value to a final value in finite amount of time by providing a suitable input. A matrix which determines if a system is fully controllable or not is called the controllability matrix.
+
+**Observability** is the property of the system that for any possible sequence of state and control inputs, the current state can be determined in finite time using only the outputs. A matrix which determines if a system is fully observable or not is called the observability matrix. A fully observable system means that it is possible to know all the state variables from the system outputs.
+
+ 
+
+Controllability matrix (R) of a system is given by the following:
+$$
+R = \begin{bmatrix} B & AB & A^2B & ... & A^{n-1}B \end{bmatrix}
+$$
+
+Observability matrix (O) of a system is given by the following:
+$$
+O = \begin{bmatrix} C \\ CA \\ CA^2 \\ \vdots \\ CA^{n-1} \end{bmatrix}
+$$
+
+If a system is fully controllable, then
+$$
+rank(R)=n
+$$
+
+If a system is fully observable, then
+$$
+rank(O)=n
+$$
+
+Here, n is the number of state variables.
+
+Rank of a matrix is defines as the maximum number of linearly independent rows or columns in a matrix.
+
+In the pendulum example (with external torque), we have the A and B matrix available to us. Hence we can calculate the controllability of the system.
+$$
+R = \begin{bmatrix} 0 & \frac{1}{ml^2} \\ \frac{1}{ml^2} & 0 \end{bmatrix}
+$$
+
+The rank of R is 2 which is equal to the number of state variables. Hence the system is fully controllable.
+
+
+
+------
+
+Take the following quiz before moving forward:
+# Quiz
+$$
+\begin{bmatrix}
+0 & 1 & 0\\
+3 & -2 & 1\\
+1 & -2 & 4
+\end{bmatrix}
+$$
+Use Octave to determine the eigen values of above Matrix and determine if the system is:
+
+
+[poll name=one type=regular results=staff_only public=true chartType=bar]
+* Unstable [Correct]
+* Stable
+* Marginally Stable 
+* Can' Say
+[/poll]
+
+------
+
+
+# **Controller Design**
+
+ 
+
+So far we have discussed the basics of state space analysis. In this section, we will discuss different types of controller design.
+
+
+
+Consider the State Space Equations of a system:
+$$
+\dot x(t) = Ax(t) + Bu(t) \\
+y(t) = Cx(t) + Du(t)
+$$
+
+
+This system can be represented in form of a block diagram as follows:
+
+<p align="center"><img src="https://raw.githubusercontent.com/saurabhcosmos/milkyway/main/images/task1/t1_40.png" alt="img" style="zoom:100%;" />
+
+
+<p align="center">Figure 4: System block diagram
+
+
+
+
+Here
+
+$r$ - Reference point
+
+$K_r$ - Gain by which reference is multiplied
+
+$x$ - State Vector
+
+$y$ -Output Vector
+
+$u$ - Input to system
+
+$K$ - Gain by which input is multiplied.
+
+
+In this system we have taken the state vector x, multiplied that with some gain matrix K and fed that as feedback input to the system.
+
+The State Equation for the system can be written as follows:
+$$
+\dot x = Ax + B(rK_r - Kx) \\
+=> \dot x = Ax - BKx + BrK_r \\
+=> \dot x = (A - BK)x + BrK_r \\
+New State Matrix => \bf{(A - BK)}
+$$
+
+The new state matrix $(A-BK)$ defines the dynamics of the system where $-Kx$ is fed as input. The system stability can be calculated by finding the eigenvalues of the $(A-BK)$ matrix.
+
+### **Linear Quadratic Regulator (LQR)**
+
+So far we have seen that if we have a system which is controllable, then we can place its eigenvalues anywhere in the left half plane by choosing appropriate gain matrix K. But the main question is where should we place our eigenvalues?
+
+Till now we have only discussed about the stability of the system. But nowhere have we asked that what is our performance measure?
+In this section, we’ll see how to optimize the value of gain matrix K to get the desired performance
+measure from the system.
+
+Linear Quadratic Regulator is a powerful tool which helps us choose the K matrix according
+to our desired response. Here we use a cost function.
+
+$$
+J = \int_{0}^{∞} (x^T Qx+u^T Ru)
+$$
+
+where, Q and R are positive semi-definite diagonal matrices (positive semi-definite matrices are those matrices whose all the eigenvalues are greater than or equal to zero). Also to remind you that for a diagonal matrix, the diagonal entries are its eigenvalues. $x$ and $u$ are the state vector and input vector respectively.
+
+
+
+Let us say that you have your system with four states and one input.  Then $x=\begin{bmatrix} x_1 \\ x_2 \\ x_3 \\ x_4 \end{bmatrix}$ and input $u$. 
+
+Let $x=\begin{bmatrix} x_1 \\ x_2 \\ x_3 \\ x_4 \end{bmatrix}$, $Q=\begin{bmatrix} Q_1 & 0 & 0 & 0 \\ 0 & Q_2 & 0 & 0 \\ 0 & 0 & Q_3 & 0 \\ 0 & 0 & 0 & Q_4 \end{bmatrix}$  
+
+Then $x_T Qx + u_T Ru = Q_1 x_1^2 + Q_2 x_2^2 + Q_3 x_3^2 + Q_4 x_4^2 + R u^2$. 
+
+Thus, you may see that the system taken here is our usual system represented as
+
+$$
+\dot x = Ax + Bu \\
+y = Cx + Du
+$$
+
+
+The controller is of the form $u = -Kx$ which is a **Linear** controller and the underlying cost function is **Quadratic** in nature and hence the name **Linear Quadratic Regulator**.
+
+With a careful look at the integrand of the cost function $J$, we may observe that each $Q_i$ are the weights for the respective states $x_i$.
+
+So, the trick is to choose weights $Q_i$ for each state $x_i$ so that the desired performance criteria is achieved. Greater the state objective is, greater will be the value of $Q$ corresponding to the said state variable. We can choose $R = 1$ for single input system. In case we have multiple inputs, we could use similar arguments for weighing the inputs as well.
+
+In case of inverted pendulums, we know that angle with the vertical and the angular velocity is very important and hence the weights corresponding to them should be more as compared to linear position and linear velocity .
+
+LQR minimizes this cost function $J$ based on the chosen matrices $Q$ and $R$. Its a bit complicated to find out matrix $K$ which minimizes this cost function. This is usually done by solving $Algebraic Riccatti Equation (ARE)$. We’ll not go into details of how to solve ARE, as it is not required in our tasks. There is inbuilt **lqr** command in octave to find $K$ matrix. What is required to be done is to choose the $Q$ and $R$ matrix appropriately to get the desired performance.
+
+------
+<div data-theme-toc="true"> </div>

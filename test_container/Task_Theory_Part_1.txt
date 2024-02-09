@@ -1,0 +1,250 @@
+# Modeling of non-linear Dynamical Systems
+
+<div align="justify" class="main">In mathematics and science, a non-linear system is a system in which the change of the output is not linearly proportional to the change of the input. Non-linear problems are of interest to engineers, biologists, mathematicians etc because most systems that occur in nature are inherently non-linear.
+
+Non-linear dynamical systems that describe changes in variable over time may often appear chaotic, unpredictable or counter-intuitive in nature, contrasting with much simpler linear systems.
+
+Typically the behavior of a non-linear system is described as a set of simultaneous equations in which the unknowns (or unknown functions in the case of differential equations) appear as variables of a polynomial of degree higher than one. Such a system is called a **non-linear system of equations.**
+
+We will deal with dynamical systems that are modeled by a finite number of coupled first order ordinary differential equations
+
+
+
+$$
+\dot x_1= f_1 (t,x_1,……,x_n,u_1,……,u_p )
+$$
+
+$$
+\dot x_2= f_2 (t,x_1,……,x_n,u_1,……,u_p )
+$$
+
+$$
+..
+$$
+
+$$
+..
+$$
+
+$$
+\dot x_n= f_n (t,x_1,……,x_n,u_1,……,u_p )
+$$
+
+Here $\dot x_1, \dot x_2,..\dot x_n$  denote the derivative of $x_1, x_2,.. x_n$ respectively with respect to time variable $t$ and $u_1, u_2,.. u_p$ etc are specified input variables. We call the variables $x_1, x_2,.. x_n$ the **state variables**.
+
+**State Variables** are used to to represent the memory the dynamical system has of its past or the desired variable of interest. We usually use vector notation to write these equations in a compact form.
+
+$$
+x=  \begin{bmatrix} x_1 \\ x_2 \\ \vdots \\ x_n\end{bmatrix} , u=  \begin{bmatrix} u_1 \\ u_2 \\ \vdots \\ u_p\end{bmatrix} , f(t,x,u)=  \begin{bmatrix} f_1(t,x,u) \\ f_2(t,x,u) \\ \vdots \\ f_n(t,x,u)\end{bmatrix} 
+$$
+
+We can rewrite the n first-order differential equations as one n-dimensional first-order vector differential equation
+
+$$
+\dot x = f(t,x,u)
+$$
+
+We call above equation as the **State Equation** of the system and refer to $x$ as the **state** and $u$ as the **input**.
+</div>
+
+___
+Take the following quiz before moving forward:
+# Quiz
+Consider a system defined by:
+$$
+\dot x = Ax + Bu
+$$
+
+where,
+
+$A$ = $ \begin{bmatrix} -1 & 2 & 10\\ -6 & -2 & 9\\ 0 & 2 & 2\end{bmatrix} $ $\qquad$ and $\qquad$ $B$ = $ \begin{bmatrix} 9 & 3\\ -2 & 6 \\ -1 & 5 \end{bmatrix} $
+
+How many states and input to the system are there in this scenario:
+
+[poll name=second type=regular results=staff_only public=true chartType=bar]
+* 2 states, 3 inputs
+* 9 states, 6 inputs
+* 6 states, 9 inputs
+* 3 states, 2 inputs [Correct]
+[/poll]
+
+___
+## Modeling of a Simple Pendulum
+
+<div align="center" class="main"><img src="https://raw.githubusercontent.com/saurabhcosmos/milkyway/main/images/task1/img1.png" alt="img" style="zoom:100%;" /></div>
+
+We will start with the mathematical modeling of a simple system.
+
+Consider a simple pendulum shown in Fig 1, where $l$ denotes the length of rod and $m$ denotes the mass of the bob. Assume the rod is rigid and has zero mass. Let $θ$ denote the angle subtended by the rod and the vertical axis through the pivot point.
+
+The pendulum is free to swing in the vertical plane, The bob of the pendulum moves in a circle of radius $l$. To write the equations of motion, let us identify the forces acting on the bob. 
+
+1. Downward gravitational force $mg$ where $g$ is acceleration due to gravity.
+
+2. Frictional force resisting motion which can be assumed to be proportional to the speed of the bob with a coefficient of friction $k$.
+
+Using the Newton’s second law of motion, the equation of motion for the bob in the tangential direction of motion can be written as
+
+
+$$
+ml\ddotθ = -mg\hspace{1mm}sinθ\hspace{1mm}-\hspace{1mm}kl\dotθ 
+$$
+
+To obtain the State Equation for the pendulum, the state variables can be assumed as 
+$$
+x_1=θ \\
+x_2=\dotθ
+$$
+The state equations for the pendulum model are:
+$$
+\dot x_1 = x_2 \\
+\dot x_2 = -\frac{g}{l} sin\hspace{0.5mm}x_1\hspace{1mm}-\hspace{1mm}\frac{k}{m}x_2
+$$
+
+
+It is possible to find the **equilibrium points** of this system by setting the **state derivatives** to zero  and then solving for $x_1$ and $x_2$.
+$$
+0 = x_2  \\
+0 = -\frac{g}{l} sin\hspace{0.5mm}x_1\hspace{1mm}-\hspace{1mm}\frac{k}{m}x_2
+$$
+
+
+The equilibrium points are located at $(nπ,0)$ for $n = ±1,±2,..$. From the physical descriptions of the pendulum, it is clear that there are only two equilibrium positions $(0,0)$ and $(π,0)$. The rest of equilibrium points are just repetitions based on number of full swings of the pendulum.
+
+Hence this is how a simple physical system is modeled.
+
+
+
+## Stable and Unstable Equilibrium Points
+
+A typical problem that arises while dealing with non-linear dynamical systems is to check if a system is stable or unstable at a given equilibrium point.
+
+ 
+
+**Equilibrium Point** of a system is the point at which the state of the system doesn’t change. The equilibrium points can be estimated by setting $\dot x_1=0$ and $\dot x_2=0$ and solving the given equations for $x_1$  and $x_2$.
+
+ 
+
+**Stable Equilibrium** - If a system always returns to the equilibrium point after small perturbations.
+
+**Unstable Equilibrium** - If a system moves away from equilibrium point after small perturbations.
+
+ 
+
+Consider the following set of coupled equations as given below.
+$$
+\dot x_1 = -x_1 + 2x_1^3 + x_2 \\
+\dot x_2 = -x_1 - x_2
+$$
+
+We will discuss the steps in order to compute the stability of system.
+
+ 
+
+1. Calculate the equilibrium points of the system by setting the values of $\dot x_1 = \dot x_2 = 0$.
+$$
+0 = -x_1 + 2x_1^3 + x_2 \\
+0 = -x_1 - x_2
+$$
+
+   ​	By solving the above two equations, the values of equilibrium point are : $(0,0) , (-1,1) \& (1,-1)$
+   
+
+2. Linearize the set of equations by calculating the Jacobian.
+
+   Behavior of Non-linear systems is very hard to analyse. Linearization is a method    which involves creating a linear approximation of a non-linear system that is       valid in a small region around the operating point (in this case, the equilibrium points).
+
+    
+
+   In order to linearize a set of equations, we need to first calculate the Jacobian for a set of equations. You can read more about Jacobian [here](http://mathworld.wolfram.com/Jacobian.html)
+
+   Consider the following:
+
+   The Jacobian $J$ for the set of equations can be calculated as:
+$$
+J = \begin{bmatrix} \frac{\partial f_1}{\partial x_1} & \frac{\partial f_1}{\partial x_2}\\ \frac{\partial f_2}{\partial x_1} & \frac{\partial f_2}{\partial x_2}\end{bmatrix} = \begin{bmatrix} 6x_1^2-1 & 1 \\ -1 & -1\end{bmatrix}
+$$
+
+3. Substitute the value of the equilibrium points in the matrix $J$ to find $3$ matrices $J_1$, $J_2$ and $J_3$.
+$$
+J_1 =  \begin{bmatrix} 6(0)^2-1 & 1 \\ -1 & -1\end{bmatrix} =  \begin{bmatrix} -1 & 1 \\ -1 & -1\end{bmatrix} \\
+J_2 =  \begin{bmatrix} 6(1)^2-1 & 1 \\ -1 & -1\end{bmatrix} =  \begin{bmatrix} 5 & 1 \\ -1 & -1\end{bmatrix} \\
+J_3 =  \begin{bmatrix} 6(-1)^2-1 & 1 \\ -1 & -1\end{bmatrix} =  \begin{bmatrix} 5 & 1 \\ -1 & -1\end{bmatrix} 
+$$
+
+
+4. Calculate the eigenvalues of each of the matrices.
+
+   Eigen values of state matrices represent poles of a system. The poles decides the stability of a system and if the poles are on the negative half of the complex plane i.e. they have the negative real part then the system is stable and if the real part is  positive the system is unstable. A system is marginally stable if it has simple  poles (non repeated) on imaginary axis and unstable if it is repeated. Hence by    intuition you can see that for simple pendulum case the pendulum in downward  position is stable and in upright position it is unstable. Find the Jacobian around the two equilibrium points and verify the same.
+
+    
+
+   The eigenvalues can be calculated by constructing the characteristic equation of      the matrix and equating it to zero.
+
+   For equilibrium point $(0,0)$ :-
+
+$$
+|sI-J_1|=0  \\
+\begin{vmatrix} s\begin{bmatrix} 1 & 0 \\ 0 & 1\end{bmatrix} - \begin{bmatrix} -1 & 1 \\ -1 & -1\end{bmatrix} \end{vmatrix}= 0 \\
+\begin{vmatrix} (s+1) & -1 \\ 1 & (s+1) \end{vmatrix}= 0 \\
+(s+1)^2 + 1 = 0 \\
+s=(-1+i),(-1-i)
+$$
+\
+   For equilibrium point $(-1,1)$ and $(1,-1)$:
+
+$$
+|sI-J_2|=0  \\
+\begin{vmatrix} s\begin{bmatrix} 1 & 0 \\ 0 & 1\end{bmatrix} - \begin{bmatrix} 5 & 1 \\ -1 & -1\end{bmatrix} \end{vmatrix}= 0 \\
+\begin{vmatrix} (s-5) & -1 \\ 1 & (s+1) \end{vmatrix}= 0 \\
+(s-5)(s+1) + 1 = 0 \\
+s=(2+2\sqrt{2}),(2-2\sqrt{2}),(-1-i)
+$$
+
+
+5. Check the real part of the eigenvalues calculated for each equilibrium points.
+
+   For each Equilibrium point
+
+   ●     If all the eigenvalues have negative real part, the system is **Stable** at the given Equilibrium point.
+
+   ●     If even one of the eigenvalues has positive real part, the system is **Unstable** at the given Equilibrium point.
+
+   
+
+   ​	For Equilibrium Point $(0,0)$, the eigenvalues are $(-1-i)$ and $(-1+i)$. Since both eigenvalues have negative real part, the system is **Stable**.
+
+    
+
+   ​    For Equilibrium Points $(1,-1)$ and $(-1,1)$, the eigenvalues are $(2+2\sqrt{2})$ and $(2-2\sqrt{2})$.    Since one of the eigenvalues has a positive real part, the system is **Unstable**.
+
+
+------
+
+Take the following quiz before moving forward:
+
+# Quiz
+Assume the following set of equation:
+$$
+\dot x_1 = -x_1 + 3 x_2  \\
+\dot x_2 = -x_1 - x_2^2
+$$
+
+Select the correct pair of Jacobian Matrix and equilibrium points for the equation above:
+
+A. $ \begin{bmatrix} -1 & 2\\ -1 & -
+x_2 \end{bmatrix} $, $\qquad$ B. $ \begin{bmatrix} -1 & 3\\ -1 & -2x_2 \end{bmatrix} $, $\qquad$ C. $ \begin{bmatrix} -1 & 1\\ 0 & -2x_1 \end{bmatrix} $
+
+J. (3,-9), (0, 0), $\qquad$ K. (-8,-9), (0, 0), $\qquad$ L. (-9,-3), (0, 0)
+
+[poll type=regular results=staff_only public=true chartType=bar]
+* A, K
+* B, L [Correct]
+* C, L
+* B, J
+[/poll]
+
+
+
+------
+<div data-theme-toc="true"> </div>
