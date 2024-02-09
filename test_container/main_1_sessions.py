@@ -219,8 +219,8 @@ def chat():
 
 def process_input(input_string):
     # Your existing process_input function
-    input_string = "\n my name is xyz \n and this is a test for the display line change\n also if I can show  equations like this \n \( \dot x_1 = -x_1 + 3x_2\)  \n \( \dot x_2 = -x_1 - x_2^2 \) \n \( A = \\begin{bmatrix} 0 & 1 \\\\ \\frac{-k}{m} & \\frac{-c}{m} \\end{bmatrix} \)"
-    
+    input_string = ""
+
     return f"e-Chat: {input_string}"
 
 if __name__ == '__main__':
