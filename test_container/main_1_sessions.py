@@ -223,7 +223,7 @@ def chat():
 
 def process_input(input_string):
     # Your existing process_input function
-    input_string = "\( y = mx +c, \\ y = mx +c  \) , where \( x \),  \( y \)  and [segment][code]>>> import sympy as sym \n>>> x = sym.symbols('x') \n>>> x + 1 \nx+1[/code] \n [segment] [gif]free_pulley.gif[/gif] "
+    input_string = "\( y = mx +c, \\ y = mx +c  \) , where \( x \),  \( y \) \n [code]>>> import sympy as sym \n>>> x = sym.symbols('x') \n>>> x + 1 \nx+1[/code] and [segment][code]>>> import sympy as sym \n>>> x = sym.symbols('x') \n>>> x + 1 \nx+1[/code] \n [segment] [gif]free_pulley.gif[/gif] "
 
     return f"e-Chat: {input_string}"
 
