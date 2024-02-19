@@ -209,9 +209,13 @@ def chat():
             contexts = json.load(f)
         instruction = "Please include at least one relevant example in your response. Additionally, please structure your response in the following format: a) Theory \nb)Mathematical Example. Also, please try and keep your responses short."# \n c) Code (if applicable)"
         
-        #response = once_interact.interactions(user_input,contexts,instruction)
+        # response = once_interact.interactions(user_input,contexts,instruction)
         response = process_input(user_input)
-        response_html = Markup(response.replace("\n", "<br>"))
+
+        # Parse and format the response
+        formatted_response = parse_chatbot_response(response)
+
+        response_html = Markup(formatted_response.replace("\n", "<br>"))
         chat_histories.setdefault(session_id, []).append({"message": user_input, "class": "user-msg"})
         chat_histories[session_id].append({"message": response_html, "class": "bot-msg"})
     # print(chat_histories)
@@ -219,9 +223,31 @@ def chat():
 
 def process_input(input_string):
     # Your existing process_input function
-    input_string = ""
+    input_string = "\( y = mx +c, \\ y = mx +c  \) , where \( x \),  \( y \)  and [segment][code]>>> import sympy as sym \n>>> x = sym.symbols('x') \n>>> x + 1 \nx+1[/code] \n [segment] [gif]free_pulley.gif[/gif] "
 
     return f"e-Chat: {input_string}"
+
+def parse_chatbot_response(response):
+    formatted_response = ""
+    parts = response.split("[segment]")  # Assuming [segment] is a delimiter for different parts of the response
+
+    for part in parts:
+        if "[code]" in part:
+            # Extract and format the code snippet
+            code = part.replace("[code]", "").replace("[/code]", "")
+            formatted_response += f"<pre class='code-snippet'><code>{code}</code></pre>"
+        elif "[gif]" in part:
+            # Extract the GIF filename and generate its URL
+            gif_filename = part.replace("[gif]", "").replace("[/gif]", "").strip()
+            gif_url = url_for('static', filename=gif_filename)
+            formatted_response += f'<img src="{gif_url}" alt="GIF" style="width: 50%; height: auto;">'
+        else:
+            # Treat as plain text
+            formatted_response += f"<p>{part}</p>"
+
+    return formatted_response
+
+
 
 if __name__ == '__main__':
     app.run(host="127.0.0.1", port=8007, debug=True)
