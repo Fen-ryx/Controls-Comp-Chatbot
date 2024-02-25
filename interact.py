@@ -7,7 +7,7 @@ from openai import OpenAI
 from make_prompt import searchVectorDb
 
 EXIT_CODE = 8465
-client = OpenAI(api_key="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")
+client = OpenAI(api_key="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")
 
 
 def interactions(contexts, instructions):
@@ -18,7 +18,12 @@ def interactions(contexts, instructions):
         clean_prompt = input(f"Enter your question. To end this thread, please enter the exit code: {EXIT_CODE}\n")
         if (clean_prompt.isnumeric() and (int)(clean_prompt) == EXIT_CODE):
             break
-        prompt = past + "\n" + searchVectorDb(clean_prompt, contexts)
+        
+        info, simflag = searchVectorDb(clean_prompt, contexts)
+        if (simflag):
+            pass # Insert code for calling the simulation
+        
+        prompt = past + "\n" + info
         prompt = prompt + instructions
         completion = client.chat.completions.create(
             model="gpt-3.5-turbo",
@@ -29,6 +34,9 @@ def interactions(contexts, instructions):
         )
         response = completion.choices[0].message.content
         print(response)
+        file1 = open("chatbot_last_response.txt", "w")
+        file1.write(str([response]))
+        file1.close()
         past = past + clean_prompt + response
         
         if (i % 5 == 0):

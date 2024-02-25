@@ -7,12 +7,14 @@ from openai import OpenAI
 from make_prompt import searchVectorDb
 
 EXIT_CODE = 8465
-client = OpenAI(api_key="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")
+client = OpenAI(api_key="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")
 
 
 def interactions(user_input, contexts, instructions, past, call_no):
     clean_prompt = user_input #input(f"Enter your question. To end this thread, please enter the exit code: {EXIT_CODE}\n")
-    prompt = past + "\n" + searchVectorDb(clean_prompt, contexts)
+    
+    info, simflag = searchVectorDb(clean_prompt, contexts)
+    prompt = past + "\n" + info
     prompt = prompt + instructions
     completion = client.chat.completions.create(
         model="gpt-3.5-turbo",
@@ -22,10 +24,12 @@ def interactions(user_input, contexts, instructions, past, call_no):
         ]
     )
     response = completion.choices[0].message.content
-    #print(response)
-    # file1 = open("chatbot_last_response.txt", "w")
-    # file1.write(str([response]))
-    # file1.close()
+    print(response)
+    
+    file1 = open("chatbot_last_response.txt", "w")
+    file1.write(str([response]))
+    file1.close()
+    
     past = past + clean_prompt + response
     
     if (call_no % 5 == 0):
@@ -38,7 +42,7 @@ def interactions(user_input, contexts, instructions, past, call_no):
             ]
         )
         past = completion.choices[0].message.content
-    return response, past
+    return response, past, simflag
 
 
 if __name__ == "__main__":

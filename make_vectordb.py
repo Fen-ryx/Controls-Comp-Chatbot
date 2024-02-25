@@ -4,6 +4,7 @@ import pandas as pd
 from sentence_transformers import SentenceTransformer
 
 LIMIT = 384
+SIM_TEXT = "This has something to do with a pulley-mass system simulation."
 
 
 class Make_Retrieval_Database():
@@ -15,7 +16,6 @@ class Make_Retrieval_Database():
     
     def createDatabase(self):
         chunks = self.chunker()
-        # import ipdb; ipdb.set_trace()
         embeddings = self.makeDenseEmbeddings(chunks)
         
         i, self.database = 0, list()
@@ -30,6 +30,10 @@ class Make_Retrieval_Database():
             self.database.append({"id": i, "context": info, "embedding": embedding.tolist()})
             i += 1
         
+        sim_embedding = self.makeDenseEmbeddings([SIM_TEXT])
+        self.database.append({"id": i, "context": SIM_TEXT, "embedding": sim_embedding.tolist()})
+        
+        # import ipdb; ipdb.set_trace()
         with open(self.save_file, 'w') as f:
             json.dump(self.database, fp=f, indent=4)
     
@@ -53,7 +57,7 @@ class Make_Retrieval_Database():
 
 if __name__ == "__main__":
     code_filepath = os.path.join(os.getcwd(), "Code_QnA.xlsx")
-    filepath = os.path.join(os.getcwd(), "Task_Theory_Part_1.txt")
+    filepath = os.path.join(os.getcwd(), "Task_Theory_Part_1.rtf")
     save_file = os.path.join(os.getcwd(), "Task_Theory_Part_1_DB.json")
     
     with open(filepath, 'r', encoding="utf8") as f:

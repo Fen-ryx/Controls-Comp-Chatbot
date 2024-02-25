@@ -14,13 +14,14 @@ def searchVectorDb(prompt, contexts):
         cos_score = computeCosineSimilarity(encoding, emb)
         scores.append([i, cos_score])
     
-    appends = ""
+    appends, simflag = "", False
     scores.sort(key = lambda x: x[1], reverse=True)
     for i in range(TOP_K):
         idx, _ = scores[i]
         appends += contexts[idx]['context']
-        # import ipdb; ipdb.set_trace()
-    return appends + '\n' + prompt
+        simflag = (idx == len(contexts) - 1) or simflag
+    
+    return appends + '\n' + prompt, simflag
 
 def computeCosineSimilarity(prompt, vec):
     return np.dot(prompt, np.squeeze(vec)) / (np.sqrt(np.sum(prompt**2)) * np.sqrt(np.sum(vec**2)))

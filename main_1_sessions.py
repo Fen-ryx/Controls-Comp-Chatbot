@@ -210,7 +210,10 @@ def chat():
             contexts = json.load(f)
         instruction = "Please include at least one relevant example in your response. Additionally, please structure your response in the following format: a) Theory \nb)Mathematical Example. Also, please try and keep your responses short."# \n c) Code (if applicable)"
         
-        response, history = once_interact.interactions(user_input, contexts, instruction, "" if (CONTROL==0) else history, CONTROL+1)
+        response, history, simflag = once_interact.interactions(user_input, contexts, instruction, "" if (CONTROL==0) else history, CONTROL+1)
+        if (simflag):
+            pass # Insert code to display the simulation
+        
         response = process_input(response)
         response_html = Markup(response.replace("\n", "<br>"))
         chat_histories.setdefault(session_id, []).append({"message": user_input, "class": "user-msg"})
