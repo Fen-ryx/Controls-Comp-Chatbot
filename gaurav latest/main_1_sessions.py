@@ -14,7 +14,7 @@ app = Flask(__name__)
 
 
 # HTML template with updated color scheme
-CONTROL = 0
+
 HTML_TEMPLATE = '''
 <!DOCTYPE html>
 <html lang="en">
@@ -217,6 +217,7 @@ def home():
 
 @app.route('/chat', methods=['GET', 'POST'])
 def chat():
+    CONTROL = 0     
     session_id = request.args.get('session_id')  # Get the session ID from the URL parameter
 
     if not session_id:
@@ -229,10 +230,12 @@ def chat():
         save_file = os.path.join(os.getcwd(), "Task_Theory_Part_1_DB.json")
         with open(save_file, 'r') as f:
             contexts = json.load(f)
-        instruction = "Please include at least one relevant example in your response. Additionally, please structure your response in the following format: a) Theory \nb)Mathematical Example. Also, please try and keep your responses short."# \n c) Code (if applicable)"
+        instruction = "Please include at least one relevant example in your response. Additionally, please structure your response in the following format: a) Theory \nb)Mathematical Example. Also, please try and keep your responses short. \n c) Code "
         
         if user_input=="update":
             response = "updated"
+            # response = process_input(user_input)
+            simflag=False
         else:
             # response = process_input(user_input)
             response, history, simflag = once_interact.interactions(user_input, contexts, instruction, "" if (CONTROL==0) else history, CONTROL+1)
@@ -269,8 +272,7 @@ def chat():
     return render_template_string(HTML_TEMPLATE, chat_histories=chat_histories, session_id=session_id, request=request)
 
 def process_input(input_string):
-    input_string ="a) **Theory:**\nEquilibrium points of a system can be found by setting the derivative of each state variable to zero and solving the resulting system of equations. For a non-linear system of differential equations, the equilibrium points are the values of state variables where all derivatives are zero.\n\nb) **Mathematical Example:**\n\nConsider a simple non-linear system described by the equations:\n$$\n\\dot x = -x + y \\dot y = -x - y\n$$\n\nTo find the equilibrium points, we set $\\dot x = \\dot y = 0$:\n$$\n0 = -x + y \\\\\n0 = -x - y\n$$\n\nSolving the above equations simultaneously, we get:\n$$\nx = 0, \\quad y = 0\n$$\nThis gives us the equilibrium point $(0, 0)$.\n\nIn a linear system, the equilibrium point's stability can be determined by calculating the Jacobian matrix and examining its eigenvalues. The sign of the real parts of the eigenvalues will indicate whether the equilibrium point is stable i.e. negative real parts OR unstable i.e. positive real parts."
-    input_string = "When a system is represented in mathematical equation then that equation is called State Equation of the system. \n $$ \dot x_1= f_1 (t,x_1,……,x_n,u_1,……,u_p ) $$ \n $$ \dot x_2= f_2 (t,x_1,……,x_n,u_1,……,u_p ) $$ $$ \\vdots \\vdots $$  $$ \dot x_n= f_n (t,x_1,……,x_n,u_1,……,u_p ) $$ \n Here $ \dot x_1, \dot x_2,..\dot x_n $  denote the derivative of $ x_1, x_2,.. x_n $ respectively with respect to time variable  $ t $ and $ u_1, u_2,.. u_p $ etc are specified input variables. We call the variables  $ x_1, x_2,.. x_n $ the **state variables**. $$ J = \\begin{bmatrix} \\frac{\partial f_1}{\partial x_1} & \\frac{\partial f_1}{\partial x_2}\\\\ \\frac{\partial f_2}{\partial x_1} & \\frac{\partial f_2}{\partial x_2}\\end{bmatrix} = \\begin{bmatrix} 6x_1^2-1 & 1 \\\\ -1 & -1\\end{bmatrix} $$ \n This function helps you find eigenvalues of any matrix. For example: \n ```python \n >>> import sympy as sym \n >>> J = sym.Matrix([[23,  1],[-1, -1]]) \n >>> J \n Matrix([ \n [23,  1], \n [-1, -1]]) \n >>> J.eigenvals() \n {11 - sqrt(143): 1, 11 + sqrt(143): 1} \n ``` \n Here $ 11 - sqrt(143), 11 + sqrt(143) $ are the eigen values of the matrix $ \\begin{bmatrix} 23 & 1 \\\\ -1 & -1\\end{bmatrix} $ \n $ x=  \\begin{bmatrix} x_1 \\\ x_2 \\\\ \\vdots \\\\ x_n\\end{bmatrix} , u=  \\begin{bmatrix} u_1 \\\\ u_2  \\\\ u_p\\end{bmatrix} , f(t,x,u)=  \\begin{bmatrix} f_1(t,x,u) \\\\ f_2(t,x,u)  \\\\ f_n(t,x,u)\\end{bmatrix}  $ \n $  \\begin{vmatrix} s\\begin{bmatrix} 1 & 0 \\\\ 0 & 1\\end{bmatrix} - \\begin{bmatrix} -1 & 1 \\\\ -1 & -1\\end{bmatrix} \\end{vmatrix}= 0 $ \n show gif"
+    input_string = "$ J = \\begin{bmatrix} \\frac{\partial f_1}{\partial x_1} & \\frac{\partial f_1}{\partial x_2} \\\\ \\frac{\partial f_2}{\partial x_1} & \\frac{\partial f_2}{\partial x_2}\\end{bmatrix} = \\begin{bmatrix} 6x_1^2-1 & 1 \\\\ -1 & -1\\end{bmatrix} $ \n $ 0 = x_2 $ \n $ 0 = -\\frac{g}{l} sin\hspace{0.5mm}x_1\hspace{1mm}-\hspace{1mm}\\frac{k}{m}x_2 $"
     return f"e-Chat: {input_string}"
 
 def parse_chatbot_response(response):
@@ -296,4 +298,4 @@ def parse_chatbot_response(response):
 
 
 if __name__ == '__main__':
-    app.run(host="127.0.0.1", port=8007, debug=True)
+    app.run(host="0.0.0.0", port=4999, debug=True)
