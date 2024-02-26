@@ -130,7 +130,7 @@ HTML_TEMPLATE = '''
         <div class="chat-history">
             {% for entry in chat_histories.get(session_id, []) %}
                 <div class="message {{entry['class']}}">
-                    <div class="message-content">{{ entry['message'] }}</div>
+                    <div class="message-content">{{ entry['message']|safe }}</div>
                     {% if entry.class =="bot-msg" %}
                         <div class="like-dislike-button">
                             <!--like button -->
@@ -182,6 +182,27 @@ HTML_TEMPLATE = '''
             };
         });
     </script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                packages: {'[+]': ['ams']}
+            },
+            startup: {
+                ready: () => {
+                    console.log('MathJax is ready');
+                    MathJax.startup.defaultReady();
+                    document.getElementById('loading').style.display = 'none'; // Ensure spinner is hidden after MathJax is ready
+                }
+            },
+            options: {
+                processHtmlClass: "mathjax",
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
 </body>
 </html>
 '''
@@ -203,17 +224,47 @@ def chat():
 
     if request.method == 'POST':
         user_input = request.form['user_input']
-
         save_file = os.path.join(os.getcwd(), "Task_Theory_Part_1_DB.json")
         with open(save_file, 'r') as f:
             contexts = json.load(f)
         instruction = "Please include at least one relevant example in your response. Additionally, please structure your response in the following format: a) Theory \nb)Mathematical Example. Also, please try and keep your responses short."# \n c) Code (if applicable)"
-        
+        if user_input=="update":
+            response = user_input
+        else:
+            # response = once_interact.interactions(user_input,contexts,instruction)
+            response = process_input(user_input)
         # response = once_interact.interactions(user_input,contexts,instruction)
-        response = process_input(user_input)
+        #response = process_input(user_input)
+        # Define start and end delimiters for code snippets
+        start_delim = "```python"
+        end_delim = "```"
+
+        # Split the response by the start delimiter
+        parts = response.split(start_delim)
+        
+        formatted_response = parts[0]  # The part before the first code snippet
+        
+        for part in parts[1:]:
+            code, remainder = part.split(end_delim, 1)
+            # Wrap the code snippet in HTML and append to the formatted response
+            formatted_response += f"Python Code:<pre class='code-snippet'><code>{code}</code></pre>{remainder}"
+        
+        parts = formatted_response.split('show gif')
+        formatted_response = parts[0]
+        for part in parts[1:]:
+            # Use Flask's url_for to get the URL for the GIF
+            gif_url = url_for('static', filename='free_pulley.gif')  # Assuming the GIF is named funny.gif and stored in the static folder
+            # Append an <img> tag with the GIF URL to the chat history
+            formatted_response += f'<br><img src="{gif_url}" alt="Funny GIF" style="max-width:100%; height:auto;">'
+
+        # if "show gif" in formatted_response:
+        #     # Use Flask's url_for to get the URL for the GIF
+        #     gif_url = url_for('static', filename='free_pulley.gif')  # Assuming the GIF is named funny.gif and stored in the static folder
+        #     # Append an <img> tag with the GIF URL to the chat history
+        #     formatted_response += f'<br><img src="{gif_url}" alt="Funny GIF" style="max-width:100%; height:auto;">'
 
         # Parse and format the response
-        formatted_response = parse_chatbot_response(response)
+        #formatted_response = parse_chatbot_response(response)
 
         response_html = Markup(formatted_response.replace("\n", "<br>"))
         chat_histories.setdefault(session_id, []).append({"message": user_input, "class": "user-msg"})
@@ -222,14 +273,13 @@ def chat():
     return render_template_string(HTML_TEMPLATE, chat_histories=chat_histories, session_id=session_id, request=request)
 
 def process_input(input_string):
-    # Your existing process_input function
-    input_string = "\( y = mx +c, \\ y = mx +c  \) , where \( x \),  \( y \) \n [code]>>> import sympy as sym \n>>> x = sym.symbols('x') \n>>> x + 1 \nx+1[/code] and [segment][code]>>> import sympy as sym \n>>> x = sym.symbols('x') \n>>> x + 1 \nx+1[/code] \n [segment] [gif]free_pulley.gif[/gif] "
-
+    input_string ="a) **Theory:**\nEquilibrium points of a system can be found by setting the derivative of each state variable to zero and solving the resulting system of equations. For a non-linear system of differential equations, the equilibrium points are the values of state variables where all derivatives are zero.\n\nb) **Mathematical Example:**\n\nConsider a simple non-linear system described by the equations:\n$$\n\\dot x = -x + y \\dot y = -x - y\n$$\n\nTo find the equilibrium points, we set $\\dot x = \\dot y = 0$:\n$$\n0 = -x + y \\\\\n0 = -x - y\n$$\n\nSolving the above equations simultaneously, we get:\n$$\nx = 0, \\quad y = 0\n$$\nThis gives us the equilibrium point $(0, 0)$.\n\nIn a linear system, the equilibrium point's stability can be determined by calculating the Jacobian matrix and examining its eigenvalues. The sign of the real parts of the eigenvalues will indicate whether the equilibrium point is stable i.e. negative real parts OR unstable i.e. positive real parts."
+    input_string = "When a system is represented in mathematical equation then that equation is called State Equation of the system. \n $$ \dot x_1= f_1 (t,x_1,……,x_n,u_1,……,u_p ) $$ \n $$ \dot x_2= f_2 (t,x_1,……,x_n,u_1,……,u_p ) $$ $$ \\vdots \\vdots $$  $$ \dot x_n= f_n (t,x_1,……,x_n,u_1,……,u_p ) $$ \n Here $ \dot x_1, \dot x_2,..\dot x_n $  denote the derivative of $ x_1, x_2,.. x_n $ respectively with respect to time variable  $ t $ and $ u_1, u_2,.. u_p $ etc are specified input variables. We call the variables  $ x_1, x_2,.. x_n $ the **state variables**. $$ J = \\begin{bmatrix} \\frac{\partial f_1}{\partial x_1} & \\frac{\partial f_1}{\partial x_2}\\\\ \\frac{\partial f_2}{\partial x_1} & \\frac{\partial f_2}{\partial x_2}\\end{bmatrix} = \\begin{bmatrix} 6x_1^2-1 & 1 \\\\ -1 & -1\\end{bmatrix} $$ \n This function helps you find eigenvalues of any matrix. For example: \n ```python \n >>> import sympy as sym \n >>> J = sym.Matrix([[23,  1],[-1, -1]]) \n >>> J \n Matrix([ \n [23,  1], \n [-1, -1]]) \n >>> J.eigenvals() \n {11 - sqrt(143): 1, 11 + sqrt(143): 1} \n ``` \n Here $ 11 - sqrt(143), 11 + sqrt(143) $ are the eigen values of the matrix $ \\begin{bmatrix} 23 & 1 \\\\ -1 & -1\\end{bmatrix} $ \n $ x=  \\begin{bmatrix} x_1 \\\ x_2 \\\\ \\vdots \\\\ x_n\\end{bmatrix} , u=  \\begin{bmatrix} u_1 \\\\ u_2  \\\\ u_p\\end{bmatrix} , f(t,x,u)=  \\begin{bmatrix} f_1(t,x,u) \\\\ f_2(t,x,u)  \\\\ f_n(t,x,u)\\end{bmatrix}  $ \n $  \\begin{vmatrix} s\\begin{bmatrix} 1 & 0 \\\\ 0 & 1\\end{bmatrix} - \\begin{bmatrix} -1 & 1 \\\\ -1 & -1\\end{bmatrix} \\end{vmatrix}= 0 $ \n show gif"
     return f"e-Chat: {input_string}"
 
 def parse_chatbot_response(response):
     formatted_response = ""
-    parts = response.split("[segment]")  # Assuming [segment] is a delimiter for different parts of the response
+    parts = response.split("[segment]")  
 
     for part in parts:
         if "[code]" in part:
@@ -240,7 +290,7 @@ def parse_chatbot_response(response):
             # Extract the GIF filename and generate its URL
             gif_filename = part.replace("[gif]", "").replace("[/gif]", "").strip()
             gif_url = url_for('static', filename=gif_filename)
-            formatted_response += f'<img src="{gif_url}" alt="GIF" style="width: 50%; height: auto;">'
+            formatted_response += f'<img src="{gif_url}" alt="GIF" style="width: 100%; height: auto;">'
         else:
             # Treat as plain text
             formatted_response += f"<p>{part}</p>"

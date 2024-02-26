@@ -7,7 +7,7 @@ from openai import OpenAI
 from make_prompt import searchVectorDb
 
 EXIT_CODE = 8465
-client = OpenAI(api_key="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")
+client = OpenAI(api_key="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")
 
 
 def interactions(user_input, contexts, instructions):
